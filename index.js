@@ -22,15 +22,13 @@ async function getVultrServers() {
       },
     });
 
-    // The Vultr API returns a top-level "instances" array.
-    // Map to a uniform format for easier handling across providers.
     const instances = response.data.instances || [];
     return instances.map((instance) => ({
       provider: 'vultr',
       id: instance.id,
       name: instance.label || `Vultr-${instance.id}`, // Fallback if label is not set
       ip: instance.main_ip,
-      tags: instance.tags || [], // Add tags to the server object
+      tags: instance.tags || [], /
     }));
   } catch (error) {
     console.error('Error fetching Vultr servers:', error.message);
@@ -49,13 +47,11 @@ async function getBinarylaneServers() {
       },
     });
 
-    // The BinaryLane API returns a top-level "servers" array
     const servers = response.data.servers || [];
     return servers.map((server) => ({
       provider: 'binarylane',
       id: server.id,
       name: server.name || `BL-Server-${server.id}`,
-      // The IP address field is also different in the API
       ip: server.networks?.v4?.[0]?.ip_address || null,
     }));
   } catch (error) {
